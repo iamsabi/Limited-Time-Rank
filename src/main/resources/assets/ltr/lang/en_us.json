@@ -1,0 +1,10 @@
+{
+  "ltr.message.keys_have_saved_at": "Keys have saved at %1$s",
+  "ltr.message.number_must_be_over_0": "§cThe number must be over 0.",
+  "ltr.message.the_end_date_of_your_rank_has_reset_to": "§6The end date of your Rank has reset to %1$s §6.",
+  "ltr.message.the_key_does_not_exist": "§cThe key does not exist.",
+  "ltr.message.time_must_be_over_0_and_less_than_24855": "§cThe time must be over 0 and less than 24855.",
+  "ltr.message.you_have_already_been_in": "§6You have already been in %1$s §6!",
+  "ltr.message.your_rank_has_already_expired": "§6Your Rank %1$s §6has already EXPIRED!",
+  "ltr.message.your_rank_will_expire_on": "§6Your Rank will expire on %1$s."
+}

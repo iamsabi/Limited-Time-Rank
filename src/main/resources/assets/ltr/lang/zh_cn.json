@@ -1,0 +1,10 @@
+{
+  "ltr.message.keys_have_saved_at": "密钥已保存于%1$s",
+  "ltr.message.number_must_be_over_0": "§c数量必须大于0",
+  "ltr.message.the_end_date_of_your_rank_has_reset_to": "§6您的Rank到期时间已重置为%1$s",
+  "ltr.message.the_key_does_not_exist": "§c密钥不存在",
+  "ltr.message.time_must_be_over_0_and_less_than_24855": "§c时间必须在0到24855之间（不包括0和14855）",
+  "ltr.message.you_have_already_been_in": "§6您已经获取了%1$s §6Rank！",
+  "ltr.message.your_rank_has_already_expired": "§6您的Rank，%1$s§6，已经到期了！",
+  "ltr.message.your_rank_will_expire_on": "§6您的Rank将于%1$s§6到期"
+}
