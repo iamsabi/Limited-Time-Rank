@@ -1,6 +1,5 @@
 package xyz.dwbrss.ltr.util;
 
-import com.google.gson.JsonObject;
 import com.mojang.logging.LogUtils;
 import net.minecraftforge.fml.IExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;

@@ -6,11 +6,11 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
-import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.fml.common.Mod;
 import org.apache.commons.io.FileUtils;
 import xyz.dwbrss.ltr.json.KeysJson;
@@ -27,6 +27,8 @@ import java.util.Date;
 import java.util.Objects;
 
 import static xyz.dwbrss.ltr.command.NameAndUUID.UUIDToName;
+import static xyz.dwbrss.ltr.util.FunctionUtils.runCommand;
+import static xyz.dwbrss.ltr.util.FunctionUtils.sendMessage;
 import static xyz.dwbrss.ltr.util.Utils.*;
 
 @Mod.EventBusSubscriber
@@ -34,9 +36,10 @@ public class UseAKey implements Command<CommandSourceStack> {
     public static UseAKey instance = new UseAKey();
     @Override
     public int run(CommandContext<CommandSourceStack> context){
-        assert Minecraft.getInstance().player != null;
         try {
-            String UUID = context.getSource().getPlayerOrException().getStringUUID();
+            MinecraftServer SERVER = context.getSource().getServer();
+            ServerPlayer PLAYER = context.getSource().getPlayerOrException();
+            String UUID = PLAYER.getStringUUID();
             String NAME = UUIDToName(UUID);
             LOGGER.info("the player " + NAME + " is using a key");
             SimpleDateFormat DateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -68,6 +71,7 @@ public class UseAKey implements Command<CommandSourceStack> {
                         if (j2.delete()){
                             if(j2.createNewFile()){
                                 LOGGER.info("the data of player " + NAME + " is reset");
+                                sendMessage(new TranslatableComponent("ltr.message.the_end_date_of_your_rank_has_reset_to", new TextComponent(DATE_STRING).withStyle(ChatFormatting.RED)),SERVER, PLAYER);
                                 jop1 = new FileOutputStream(j2);
                                 WRITER1 = new OutputStreamWriter(jop1, StandardCharsets.UTF_8);
                                 WRITER1.write(NEW_PLAYERSJSON);
@@ -92,22 +96,15 @@ public class UseAKey implements Command<CommandSourceStack> {
                                 jop1.close();
                             }
                         }
-                        Minecraft.getInstance().player.chat("/ftbranks add " + NAME + " " + KEYSJSONj1.GROUP);
-                        Minecraft.getInstance().player.sendMessage(
-                                new TranslatableComponent("ltr.message.you_have_already_been_in", new TextComponent(KEYSJSONj1.GROUP).withStyle(ChatFormatting.RED)),
-                                Util.NIL_UUID
-                        );
-                        Minecraft.getInstance().player.sendMessage(
-                                new TranslatableComponent("ltr.message.the_end_date_of_your_rank_has_reset_to", new TextComponent(DATE_STRING).withStyle(ChatFormatting.RED)),
-                                Util.NIL_UUID
-                        );
+                        runCommand("/ftbranks add " + NAME + " " + KEYSJSONj1.GROUP, SERVER, PLAYER);
+                        sendMessage(new TranslatableComponent("ltr.message.you_have_already_been_in", new TextComponent(KEYSJSONj1.GROUP).withStyle(ChatFormatting.RED)),SERVER, PLAYER);
+                        sendMessage(new TranslatableComponent("ltr.message.the_end_date_of_your_rank_has_reset_to", new TextComponent(DATE_STRING).withStyle(ChatFormatting.RED)),SERVER, PLAYER);
                     }
                 } else {// 如果否，将玩家加入指定权限组
                     DATE = TODAY;
                     DATE.setTime(TODAY_LONG + ADD_TIME);
                     DATE_STRING = DateFormat.format(DATE);
-                    LOGGER.info("running command \"/ftbranks add " + NAME + " " + KEYSJSONj1.GROUP + "\"");
-                    Minecraft.getInstance().player.chat("/ftbranks add " + NAME + " " + KEYSJSONj1.GROUP);
+                    runCommand("/ftbranks add " + NAME + " " + KEYSJSONj1.GROUP, SERVER, PLAYER);
                     if(j2.createNewFile()){
                         LOGGER.info("the data of player " + NAME + " is created");
                         FileOutputStream jop2 = new FileOutputStream(j2);
@@ -116,22 +113,13 @@ public class UseAKey implements Command<CommandSourceStack> {
                         WRITER2.flush();
                         WRITER2.close();
                         jop2.close();
-                        Minecraft.getInstance().player.sendMessage(
-                            new TranslatableComponent("ltr.message.you_have_already_been_in", new TextComponent(KEYSJSONj1.GROUP).withStyle(ChatFormatting.RED)),
-                            Util.NIL_UUID
-                        );
-                        Minecraft.getInstance().player.sendMessage(
-                            new TranslatableComponent("ltr.message.your_rank_will_expire_on", new TextComponent(DATE_STRING).withStyle(ChatFormatting.RED)),
-                            Util.NIL_UUID
-                        );
+                        sendMessage(new TranslatableComponent("ltr.message.you_have_already_been_in", new TextComponent(KEYSJSONj1.GROUP).withStyle(ChatFormatting.RED)),SERVER, PLAYER);
+                        sendMessage(new TranslatableComponent("ltr.message.your_rank_will_expire_on", new TextComponent(DATE_STRING).withStyle(ChatFormatting.RED)),SERVER, PLAYER);
                     }
                 }
             } else {// 如果不存在
                 LOGGER.error("The key does not exist");
-                Minecraft.getInstance().player.sendMessage(
-                        new TranslatableComponent("ltr.message.the_key_does_not_exist"),
-                        Util.NIL_UUID
-                );
+                sendMessage(new TranslatableComponent("ltr.message.the_key_does_not_exist").withStyle(ChatFormatting.RED),SERVER, PLAYER);
             }
         } catch (ParseException | IOException | CommandSyntaxException e) {
             throw new RuntimeException(e);
