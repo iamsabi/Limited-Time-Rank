@@ -1,0 +1,13 @@
+{
+  "ltr.message.keys_have_saved_at": "密鑰已保存於%1$s",
+  "ltr.message.number_must_be_over_0": "§c數量必須大於0",
+  "ltr.message.the_end_date_of_your_rank_has_reset_to": "§6您的Rank到期時間已重置為%1$s",
+  "ltr.message.the_end_date_of_players_rank_has_reset_to": "%1$s§6的Rank到期時間已重置為%2$s",
+  "ltr.message.the_key_does_not_exist": "§c密鑰不存在",
+  "ltr.message.time_must_be_over_0_and_less_than_24855": "§c時間必須在0到24855之間（不包括0和14855）",
+  "ltr.message.you_have_already_been_in": "§6您已經獲取了 %1$s §6Rank！",
+  "ltr.message.your_rank_has_already_expired": "§6您的Rank，%1$s§6，已經到期了！",
+  "ltr.message.your_rank_will_expire_on": "§6您的Rank將於%1$s§6到期",
+  "ltr.message.player_have_already_been_in": "%1$s§6已經獲取了 %2$s §6Rank！",
+  "ltr.message.players_rank_will_expire_on": "%1$s§6的Rank將於%2$s§6到期"
+}
